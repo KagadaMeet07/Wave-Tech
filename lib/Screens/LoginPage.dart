@@ -1,15 +1,24 @@
-import 'package:e_commerce_app/ForgotPage.dart';
-import 'package:e_commerce_app/SingupPage.dart';
+import 'package:e_commerce_app/Home_Page.dart';
+import 'package:e_commerce_app/Screens/ForgotPage.dart';
+import 'package:e_commerce_app/Screens/SingupPage.dart';
+//import 'package:e_commerce_app/SingupPage.dart';
 import 'package:e_commerce_app/main.dart';
 import 'package:flutter/material.dart';
+
+import '../Navigation Bar/Bottom_Navigation_bar.dart';
+import '../Navigation Bar/Search_Bar.dart';
+import '../Navigation Bar/top_categories.dart';
+
+//import '../Botton_Navigation Bar/Bottom_Navigation_bar.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
-
+var value='';
   var _formKey = GlobalKey<FormState>();
+  var _key=GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +81,7 @@ class LoginPage extends StatelessWidget {
               height: h * 0.1,
               width: w * 0.8,
               child: Form(
+                key: _key,
                 child: TextFormField(
                   controller: passController,
                   obscureText: true,
@@ -79,24 +89,27 @@ class LoginPage extends StatelessWidget {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                     ),
-                    prefixIcon: Icon(Icons.password_outlined),
+                    prefixIcon: Icon(Icons.remove_red_eye),
                     labelText: "Password",
                     hintText: 'Password',
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Enter a valid password!';
+                      return 'Enter a password!';
+                    } else if (value.length < 8) {
+                      return 'Password must contain at least 8 character';
                     }
-                    else if (value.length<8)
-                    {
-                     return'Enter minimum 8 character' ;
+                    if(!value.contains(RegExp(r'[A-z]'))){
+    return 'Password must contain at least one uppercase';
+                  }
+                    if(!value.contains(RegExp(r'[0-9]'))){
+                      return'Password must contain at least one number';
                     }
-                    else
-                      {
-                        return 'Required field';
-                      }
-                    return null;
+
+                      return null;
+
                   },
+
                 ),
               ),
             ),
@@ -115,16 +128,24 @@ class LoginPage extends StatelessWidget {
             ),
             SizedBox(height: 9),
             Container(
-              width: w * 0.7,
+              width: w * 0.8,
               child: ElevatedButton(
                 child: const Text('Login', style: TextStyle(color: Colors.white)),
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                  //   Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(builder: (context) => HomePage()));
+    final isValid = _formKey.currentState!.validate();
+    if(!isValid){
+    return ;
+    };
+    final isVal=_key.currentState!.validate();
+    if(!isVal){
+    return;
+    }
+
+    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage()));
                     // Perform login
-                  };
+
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.blueAccent,
@@ -135,7 +156,7 @@ class LoginPage extends StatelessWidget {
             Text('or, Create a new account?', style: TextStyle(fontSize: 12)),
             SizedBox(height: 15),
             Container(
-              width: w * 0.7,
+              width: w * 0.8,
               child: ElevatedButton(
                 child: const Text('SignUp', style: TextStyle(color: Colors.white)),
                 onPressed: () {

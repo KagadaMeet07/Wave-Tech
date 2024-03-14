@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:e_commerce_app/LoginPage.dart';
+import 'package:e_commerce_app/Screens/LoginPage.dart';
 import 'package:e_commerce_app/main.dart';
 import 'package:flutter/material.dart';
 class SplashScreenPage extends StatefulWidget {
@@ -10,7 +10,9 @@ class SplashScreenPage extends StatefulWidget {
   State<SplashScreenPage> createState() => _SplashScreenPageState();
 }
 
-class _SplashScreenPageState extends State<SplashScreenPage> {
+class _SplashScreenPageState extends State<SplashScreenPage>with SingleTickerProviderStateMixin {
+  late Animation animation;
+  late AnimationController animationController;
   @override
   void initState() {
     super.initState();
@@ -33,7 +35,11 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
           child: Container(
               height: h*0.1,
               width: w*0.6,
-              child: Image.asset('assets/images/Wavetech logo.png')),
+              child: Image.asset('assets/images/Wavetech logo.png')
+
+          ),
+
+
         ),
       ),
 
